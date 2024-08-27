@@ -1,4 +1,5 @@
 ---
+import Link from "./link.astro";
 const{title, description, text, link, name, addClass} = Astro.props;
 ---
 
@@ -10,4 +11,5 @@ const{title, description, text, link, name, addClass} = Astro.props;
     <slot name="content">
         <p>{text}</p>
     </slot>
+    <Link link={link} name={name} addClass={addClass}/>
 </section>
