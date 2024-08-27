@@ -1,0 +1,12 @@
+---
+const {title, textHead} = Astro.props;
+---
+
+<section class="flex flex-col items-center justify-center my-5 w-full">
+    <div class="p-5">
+        <h2 class="text-black dark:text-white text-center  text-3xl transition duration-700 ease-in-out">{title}</h2>
+        <div class="flex items-center my-32">
+            <h1 class="text-black dark:text-white text-base text-center lg:text-xl duration-700 ease-in-out">{textHead}</h1>
+        </div>
+    </div>
+</section>
