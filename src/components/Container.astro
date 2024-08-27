@@ -1,0 +1,13 @@
+---
+const{title, description, text, link, name, addClass} = Astro.props;
+---
+
+<section class="flex flex-col items-center mt-32 mb-10 p-2.5">
+    <slot name="header">
+        <h3 class="text-black dark:text-white text-center text-base lg:text-xl transition duration-700">{title}</h3>
+        <p class="text-black dark:text-white text-center text-base md:text-lg lg:text-lg transition duration-700">{description}</p>
+    </slot>
+    <slot name="content">
+        <p>{text}</p>
+    </slot>
+</section>
