@@ -1,0 +1,22 @@
+---
+const { link, name, addClass } = Astro.props;
+---
+
+<div class="w-full pl-6">
+    <a
+        href={link}
+        class=`text-black flex text-nowrap w-20 hover:cursor-pointer dark:text-white hover:text-white hover:fill-white dark:fill-white dark:hover:fill-cyan-400 dark:hover:text-cyan-400 ${addClass}`
+    >
+        {name}
+        <svg
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 ml-1"
+            ><path
+                d="M22 9a1 1 0 0 0 0 1.42l4.6 4.6H3.06a1 1 0 1 0 0 2h23.52L22 21.59A1 1 0 0 0 22 23a1 1 0 0 0 1.41 0l6.36-6.36a.88.88 0 0 0 0-1.27L23.42 9A1 1 0 0 0 22 9Z"
+                data-name="Layer 2"
+                fill=""
+                class="fill-000000"></path></svg
+        >
+    </a>
+</div>
