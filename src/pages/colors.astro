@@ -3,9 +3,14 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Description from "../components/description.astro";
 import Container from "../components/Container.astro";
-// import 
+import From from "../components/From.astro";
 ---
 
 <Layout title="My Tools | colores">
     <Header link="/"/>
+    <Description title="Colors" textHead="Aquí econtraras todos lo colores que más utilizó"/>
+    <main>
+        <Container title="Ingresa el color en hexadecimal" addClass="hidden"/>
+        <From name="Crear color" client:load link="" input2="hidden" input3="hidden"/>
+    </main>
 </Layout>
