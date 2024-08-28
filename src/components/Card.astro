@@ -17,7 +17,7 @@ const { text, addClass, addStyle, addText, img, alt, link } = Astro.props;
 	>
 		{addText}
 		<a href={link} target="_blank">
-			<img src={img} alt={alt} />
+			<img src={img} alt={alt} class={addClass}/>
 		</a>
 	</div>
 </div>
