@@ -3,15 +3,19 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Description from "../components/description.astro";
 import Container from "../components/Container.astro";
-import From from "../components/From.astro";
+import Form from "../components/Form.astro";
 ---
 
 <Layout title="My Tools | colores">
-    <Header link="/"/>
-    <Description title="Colors" textHead="Aquí econtraras todos lo colores que más utilizó"/>
+    <Header link="/" />
+    <Description
+        title="Colors"
+        textHead="Aquí econtraras todos lo colores que más utilizó"
+    />
     <main>
-        <Container title="Ingresa el color en hexadecimal" addClass="hidden"/>
-        <From name="Crear color" client:load link="" input2="hidden" input3="hidden"/> <!--
+        <Container title="Ingresa el color en hexadecimal" addClass="hidden" />
+        <Form name="Crear color" client:load link="../src/scripts/colors.js" input2="hidden" input3="hidden"/>
+        <!--
         ! Error en el from cunado esta comentado no da el errore en vercel pero cunado 
         !no esta comentado da el error-->
     </main>
