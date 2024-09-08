@@ -1,0 +1,71 @@
+<div id="notify">
+    <p id="textNotify"></p>
+</div>
+
+<style>
+    .notify {
+        background-color: transparent;
+        padding: 5px 10px;
+        position: fixed;
+        bottom: 5px;
+        border-radius: 5px 0 0  5px ;
+        right: 0;
+        color: transparent;
+        text-wrap: nowrap;
+        overflow: hidden;
+        animation: expand ease-in-out 5s;
+    }
+
+    @keyframes expand {
+        0% {
+            width: 0;
+        }
+        50% {
+            background-color: #3366ee;
+            width: 20%;
+            color: white;
+        }
+        100% {
+            width: 0;
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        @keyframes expandDark {
+            0% {
+                width: 0;
+            }
+            50% {
+                background-color: #a284f5;
+                width: 30%;
+                color: white;
+            }
+            100% {
+                width: 0;
+            }
+        }
+        .notify {
+            animation: expandDark ease-in-out 5s;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .notify {
+            animation: expandMovil ease-in-out 10s;
+        }
+    }
+
+    @keyframes expandMovil {
+        0% {
+            width: 0;
+        }
+        50% {
+            width: 50%;
+            background-color: #3366ee;
+            color: white;
+        }
+        100% {
+            width: 0;
+        }
+    }
+</style>
