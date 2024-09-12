@@ -1,7 +1,6 @@
 ---
 import Notify from "./notify.astro";
-const { link, name = "Enviar", input2, input3, input2Place, input3Place, input3Type, required } = Astro.props;
-//* definimos las clases comunes
+const { name = "Enviar", link, input2, input3, input2Place, input3Place, input3Type, required } = Astro.props;
 const commonClasses =
     "p-1 text-black dark:text-white bg-transparent outline-none border-b-2 border-black dark:border-white hover:border-white dark:hover:border-cyan-400 placeholder:text-black dark:placeholder:text-white focus:border-black dark:focus:border-cyan-400";
 ---
@@ -17,23 +16,21 @@ const commonClasses =
         id="input1"
         required
         maxlength="7"
-        minlength="0"
         placeholder="Ingresa el color"
         class={commonClasses}
     />
 
-    <label for="input2" class=`sr-only ${input2}`>Color 2</label>
+    <label for="input2" class={`sr-only ${input2}`}>Color 2</label>
     <input
         type="text"
-        name="inpu2"
+        name="input2"
         id="input2"
         {required}
-        aria-hidden="true"
         placeholder={input2Place}
         class={`${commonClasses} ${input2}`}
     />
 
-    <label for="input3" class=`sr-only ${input3}`>Color 3</label>
+    <label for="input3" class={`sr-only ${input3}`}>Color 3</label>
     <input
         type={input3Type}
         name="input3"
@@ -42,7 +39,6 @@ const commonClasses =
         placeholder={input3Place}
         class={`${commonClasses} ${input3}`}
     />
-
 
     <input
         type="button"
@@ -54,4 +50,4 @@ const commonClasses =
 <Notify />
 <section id="container" class="grid grid-cols-2 lg:grid-cols-4 gap-5 p-5">
 </section>
-<script src={link}></script>
+<script src={`${link}`}></script>
