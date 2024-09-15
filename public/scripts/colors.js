@@ -34,7 +34,7 @@ function createBoxColor(color) {
         newCard.appendChild(boxColor);
 
         let containerBnt = document.createElement("div");
-        containerBnt.className = "flex justify-evenly border rounded";
+        containerBnt.className = "flex justify-around border rounded";
         newCard.appendChild(containerBnt);
 
         let bntCopy = document.createElement("buttom");
