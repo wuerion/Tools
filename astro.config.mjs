@@ -1,8 +1,15 @@
 import { defineConfig } from 'astro/config';
-
 import tailwind from "@astrojs/tailwind";
+import path from 'path';
 
-// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()]
+  integrations: [tailwind()],
+  vite: {
+    resolve: {
+      alias: {
+        '@scripts': path.resolve('./src/scripts'),
+      }
+    }
+  }
 });
+
