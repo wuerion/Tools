@@ -1,0 +1,16 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Description from "@/components/description.astro";
+import Container from "@/components/Container.astro";
+import Form from "@/components/Form.astro";
+---
+
+<Layout title="My Tools | gradientes">
+    <Header link="/"/>
+    <Description title="Gradientes" textHead="Aquí econtraras todos lo gradientes que más utilizó"/>
+    <main>
+        <Container title="Ingresa los valores del gradiente en hexadecimal" addClass="hidden"/>
+        <Form name="Crear gradiente" link="/scripts/gradients.js" input2Place="Grados" input3Place="Ingresa el color"/>
+    </main>
+</Layout>
