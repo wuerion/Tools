@@ -35,15 +35,18 @@ function createBoxColor(color) {
 
         let containerBnt = document.createElement("div");
         containerBnt.className = "flex justify-around border rounded";
+        containerBnt.style.display = 'space-around';     
         newCard.appendChild(containerBnt);
 
-        let bntCopy = document.createElement("buttom");
-        bntCopy.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 border-r hover:bg-white/10 w-1/2";
+        let bntCopy = document.createElement("button");
+        bntCopy.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 border-r hover:bg-white/10";
+        bntCopy.style.width = "50%";
         bntCopy.innerHTML = "Copy";
         containerBnt.appendChild(bntCopy);
 
-        let bntDelet = document.createElement("buttom");
-        bntDelet.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 hover:bg-white/10 w-1/2";
+        let bntDelet = document.createElement("button");
+        bntDelet.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 hover:bg-white/10";
+        bntDelet.style.width = "50%";
         bntDelet.innerText = "Delet";
         containerBnt.appendChild(bntDelet);
 
