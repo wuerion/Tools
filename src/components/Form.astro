@@ -1,6 +1,6 @@
 ---
 import Notify from "./notify.astro";
-const { name = "Enviar", link, input2, input3, input2Place, input3Place, input3Type, required, length2, length3 } = Astro.props;
+const { name = "Enviar", link, input1, input2, input3, input2Place, input3Place, input3Type, required, length2, length3 } = Astro.props;
 const commonClasses =
     "p-1 text-black dark:text-white bg-transparent outline-none border-b-2 border-black dark:border-white hover:border-white dark:hover:border-cyan-400 placeholder:text-black dark:placeholder:text-white focus:border-black dark:focus:border-cyan-400";
 ---
@@ -9,7 +9,7 @@ const commonClasses =
     method="post"
     class="flex flex-col sm:flex-row justify-center items-center gap-5"
 >
-    <label for="input1" class="sr-only">Color 1</label>
+    <label for="input1" class={`sr-only ${input1}`}>Color 1</label>
     <input
         type="text"
         name="input1"
@@ -17,7 +17,7 @@ const commonClasses =
         required
         maxlength="7"
         placeholder="Ingresa el color"
-        class={commonClasses}
+        class={`${commonClasses} ${input1}`}
     />
 
     <label for="input2" class={`sr-only ${input2}`}>Color 2</label>
@@ -55,4 +55,6 @@ const commonClasses =
 
 <!--* uso de condicionales -->
 {link === '/scripts/colors.js' && <script src="/scripts/colors.js"></script>} 
-{link === '/scripts/gradients.js' && <script src="/scripts/gradients.js"></script>} 
+{link === '/scripts/gradients.js' && <script src="/scripts/gradients.js"></script>}
+{link === '/scripts/fonts.js' && <script src="/scripts/fonts.js"></script>}
+<style></style>
