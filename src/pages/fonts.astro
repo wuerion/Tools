@@ -1,8 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
+import Description from "@/components/description.astro";
+import Container from "@/components/Container.astro";
+import Form from "@/components/Form.astro";
 ---
 
 <Layout title="My Tools | Fonts">
     <Header link="/"/>
+    <Description title="Fonts" textHead="Aquí econtraras todos lo Fonts que más utilizó"/>
+    <main>
+        <Container title="Ingresa el nombre y url de la font" addClass="hidden"/>
+        <Form name="Crear Font" link="/scripts/fonts.js" input1="hidden" input2Place="Ingresa el nombre" input3Place="Ingresa el url" input3Type="url"/>
+    </main>
 </Layout>
