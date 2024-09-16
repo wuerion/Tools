@@ -1,6 +1,6 @@
 ---
 import Notify from "./notify.astro";
-const { name = "Enviar", link, input2, input3, input2Place, input3Place, input3Type, required } = Astro.props;
+const { name = "Enviar", link, input2, input3, input2Place, input3Place, input3Type, required, length2, length3 } = Astro.props;
 const commonClasses =
     "p-1 text-black dark:text-white bg-transparent outline-none border-b-2 border-black dark:border-white hover:border-white dark:hover:border-cyan-400 placeholder:text-black dark:placeholder:text-white focus:border-black dark:focus:border-cyan-400";
 ---
@@ -25,6 +25,7 @@ const commonClasses =
         type="text"
         name="input2"
         id="input2"
+        maxlength={length2}
         {required}
         placeholder={input2Place}
         class={`${commonClasses} ${input2}`}
@@ -35,6 +36,7 @@ const commonClasses =
         type={input3Type}
         name="input3"
         id="input3"
+        maxlength={length3}
         {required}
         placeholder={input3Place}
         class={`${commonClasses} ${input3}`}
