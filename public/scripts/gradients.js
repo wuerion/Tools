@@ -2,96 +2,176 @@ let createGradient = document.getElementById("createData");
 let container = document.getElementById("container");
 let divNotify = document.getElementById("notify");
 let textNotify = document.getElementById("textNotify");
+let allowedChar = "#";
 
-function createBoxGradient(val1, val2, va3) {
-    let input1 = document.getElementById("input1").value;
-    localStorage.setItem("color1", input1);
-    let colorData1 = localStorage.getItem("color1");
+// conexion a la db
+fetch("http://localhost/Tools-api/get_gradients.php").then(response => response.json()).then(data => {
+    console.log("Datos obtenidos", data);
+}).catch(error => {
+    console.log("Error al obtenr los datos", error);
+})
 
-    let input2 = document.getElementById("input2").value;
-    localStorage.setItem("deg", input2);
-    let deg = localStorage.getItem("deg");
+// function para crear el gradiente en vase el valor del input
+async function createBoxGradientWithitInput(val1, val2, val3) {
+    let color1 = document.getElementById("input1").value;
+    localStorage.setItem("color1", color1)
+    let data1 = localStorage.getItem("color1")
     
-    let input3 = document.getElementById("input3").value;
-    localStorage.setItem("color2", input3);
-    let colorData2 = localStorage.getItem("color2");
+    let deg = document.getElementById("input2").value;
+    localStorage.setItem("deg", deg)
+    let data2 = localStorage.getItem("deg")
+    
+    let color2 = document.getElementById("input3").value;
+    localStorage.setItem("color2", color2)
+    let data3 = localStorage.getItem("color2")
 
-    let allowedChar = '#';
-    let allowedword = 'deg';
-    if (input1 === '') {
+    if (color1 === "") {
         divNotify.classList.add("notify");
-        textNotify.innerText = 'Ingresa el color'
+        textNotify.innerText = "Ingresa el color";
         notify();
-    } else if (input1[0] !== allowedChar) {
-        divNotify.classList.add('notify');
-        textNotify.innerText = 'Falta el (#)';
-        notify();
-    } else if (input2 === '') {
+    } else if (color1[0] !== allowedChar) {
         divNotify.classList.add("notify");
-        textNotify.innerText = 'Ingresa los grados';
+        textNotify.innerText = "Falte el (#)";
         notify();
-    } else if (input3 === '') {
+    } else if (deg === "") {
         divNotify.classList.add("notify");
-        textNotify.innerText = 'Ingresa el color'
+        textNotify.innerText = "Ingresa los grados";
         notify();
-    } else if (input3[0] !== allowedChar) {
+    } else if (color2 === "") {
         divNotify.classList.add("notify");
-        textNotify.innerText = 'Falte el (#)'
+        textNotify.innerText = "Ingresa el color";
+        notify();
+    } else if (color2[0] !== allowedChar) {
+        divNotify.classList.add("notify");
+        textNotify.innerText = "Falta el (#)";
         notify();
     } else {
-        let newCard = document.createElement("div");
-        newCard.className = "border border-black dark:border-white hover:border-white dark:hover:border-cyan-400 p-3.5 rounded";
-        container.appendChild(newCard);
-        
-        let codeColor = document.createElement("p");
-        codeColor.className = "text-black dark:text-white text-center";
-        codeColor.innerText = input1 + ', ' + input2 + ', ' + input3;
-        newCard.appendChild(codeColor);
+        createBoxGradient(color1, deg, color2);
+        console.log("gradinete ingresado:" + data1, data2, data3);
+        saveGradientInDB(data1, data2, data3);
+    }
+}
 
-        let boxColor = document.createElement("div");
-        boxColor.className = "h-10 rounded my-2.5";
-        boxColor.style.backgroundImage = `linear-gradient(${input2}, ${input1}, ${input3})`;
-        newCard.appendChild(boxColor);
+// function para crear le gradiente en vase el valor de la db
+function createBoxGradient(val1, val2, val3) {
+    let newCard = document.createElement("div");
+    newCard.className = "border border-black dark:border-white hover:border-white dark:hover:border-cyan-400 p-3.5 rounded";
+    container.appendChild(newCard);
 
-        let containerBnt = document.createElement("div");
-        containerBnt.className = "flex justify-around border rounded";
-        newCard.appendChild(containerBnt);
+    let codeColor = document.createElement("p");
+    codeColor.className = "text-black dark:text-white text-center";
+    codeColor.innerText = val1 + ', ' + val2 + ', ' + val3;
+    newCard.appendChild(codeColor);
 
-        let bntCopy = document.createElement("button");
-        bntCopy.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 border-r hover:bg-white/10";
-        bntCopy.style.width = "50%";
-        bntCopy.innerText = "Copy";
-        containerBnt.appendChild(bntCopy);
+    let boxColor = document.createElement("div");
+    boxColor.className = "h-10 rounded my-2.5";
+    boxColor.style.backgroundImage = `linear-gradient(${val2}, ${val1}, ${val3})`;
+    newCard.appendChild(boxColor);
 
-        let bntDelet = document.createElement("button");
-        bntDelet.className = "text-black text-center dark:text-white hover:text-white dark:hover:text-cyan-400 border-r hover:bg-white/10";
-        bntDelet.style.width = "50%";
-        bntDelet.innerText = "Delet";
-        containerBnt.appendChild(bntDelet);
+    let containerBnt = document.createElement("div");
+    containerBnt.classList.add("containerBNT");
+    newCard.appendChild(containerBnt);
 
-        const copyGradient = async () => {
-            try {
-                await navigator.clipboard.writeText(`background-image:linear-gradient(${deg},${colorData1},${colorData2});`);
-                divNotify.classList.add('notify');
-                textNotify.innerText = "Gradiente copiado";
-                notify();
-            } catch (error) {
-                console.log(error);
-            }
-        };
+    let bntCopy = document.createElement("button");
+    bntCopy.classList.add("bntCopy");
+    bntCopy.innerText = "Copy";
+    containerBnt.appendChild(bntCopy);
 
-        function delet() {
-            newCard.remove();
-            localStorage.removeItem('color1');
-            localStorage.removeItem('deg');
-            localStorage.removeItem('color2');
+    let bntDelet = document.createElement("button");
+    bntDelet.classList.add("bntDelet");
+    bntDelet.innerText = "Delet";
+    containerBnt.appendChild(bntDelet);
+
+    const copyGradient = async (val1, val2, val3) => {
+        try {
+            await navigator.clipboard.writeText(`background-image:(${val2}, ${val1}, ${val3});`);
             divNotify.classList.add("notify");
-            textNotify.innerText = "Gradiente eliminado";
+            textNotify.innerText = "Gradiente copiado";
             notify();
-        };
+        } catch (error) {
+            console.log("error al copiar:", error);
+        }
+    };
 
-        bntCopy.addEventListener('click', function () { copyGradient(colorData1, deg, colorData2); });
-        bntDelet.addEventListener('click', function () { delet(colorData1, deg, colorData2); });
+    function delet(val1, val2, val3) {
+        newCard.remove();
+        localStorage.removeItem("color1");
+        localStorage.removeItem("deg");
+        localStorage.removeItem("color2");
+        divNotify.classList.add("notify");
+        textNotify.innerText = "Gradiente eliminado";
+        deleteGradientInDB(val1, val2, val3);
+        notify();
+    };
+
+    bntCopy.addEventListener('click', function () { copyGradient(val1, val2, val3) });
+    bntDelet.addEventListener('click', function () { delet(val1, val2, val3) });
+}
+
+// obtenemos los datos de la db
+async function getColorsFromDB() {
+    try {
+        const response = await fetch("http://localhost/Tools-api/get_gradients.php");
+        const result = await response.json();
+        // aseguramos que  el resultado.data es un array antes de usar fetch
+        if (result.status === "success" && Array.isArray(result.data)) {
+            const colors = result.data;
+            colors.forEach(color => {
+                console.log("gradiente obtenido: ", color.firstColor,  color.deg,  color.secondColor);
+                createBoxGradient(color.firstColor, color.deg, color.secondColor);
+            });
+        } else {
+            console.log("Error en la respuesta: ", result.message || "Datos inesperados");
+        }
+    } catch (error) {
+        console.error("error al obtener los datos")
+    }
+}
+
+// function para eliminar los datos de la db
+async function deleteGradientInDB(val1, val2, val3) {
+    try {
+        const response = await fetch("http://localhost/Tools-api/delet_gradients.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({val1:val1, val2: val2, val3: val3}),
+        });
+        // obtenemos la rrespuesta
+        const textResponse = await response.text();
+        console.log("Respuesta del servidor: ", textResponse);
+
+        const result = await response.json();
+        if (result.success) {
+            console.log("Gradiente eliminado");
+        } else {
+            console.log("Error al eliminar: ", result.message);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud: ", error);
+    }
+}
+
+// guardamos el nuevo datos en la db
+async function saveGradientInDB(val1, val2, val3) {
+    console.log("gradiente que se va a guardar: " , val1, val2, val3);
+    try {
+        const response = await fetch("http://localhost/Tools-api/save_gradients.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({val1: val1, val2: val2, val3: val3}),
+        });
+        const result = await response.json();
+        if (result.success) {
+            console.log("gradiente guardao");
+        } else {
+            console.log("error al guardar: ", result.message);
+        }
+    } catch (error) {
+        console.error("error en la solucitud: ", error)
     }
 }
 
@@ -112,9 +192,14 @@ async function notify() {
     console.log('end');
 }
 
-createGradient.addEventListener('click', function () { createBoxGradient(); });
+window.onload = () => {
+    getColorsFromDB()
+}
+
 window.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        createBoxGradient();
-    };
-});
+    if (e.key === "Enter") {
+        createBoxGradientWithitInput();
+    }
+})
+
+createGradient.addEventListener("click", function () { createBoxGradientWithitInput(); });
