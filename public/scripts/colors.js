@@ -5,7 +5,7 @@ let textNotify = document.getElementById("textNotify");
 let allowedChar = '#';
 
 // conecxion a la db
-fetch("http://localhost/Tools-api/get_data.php").then(response => response.json()).then(data => {
+fetch("http://localhost/Tools-api/get_colors.php").then(response => response.json()).then(data => {
     console.log("Datos obtenidos", data);
 }).catch(error => {
     console.log("Error al obtenr los datos", error);
@@ -36,8 +36,7 @@ async function createBoxColorWithinput(data) {
 }
 
 // function para crear el color en vase del valor de la db
-async function createBoxColor(color) {
-    let colorData = localStorage.getItem("color");
+function createBoxColor(color) {
     let newCard = document.createElement("div");
     newCard.className = "border border-black dark:border-white hover:border-white dark:hover:border-cyan-400 p-3.5 rounded";
     container.appendChild(newCard);
@@ -103,14 +102,14 @@ async function createBoxColor(color) {
 // obtenemos los datos de la db
 async function getColorsFromDB() {
     try {
-        const response = await fetch("http://localhost/Tools-api/get_data.php");
+        const response = await fetch("http://localhost/Tools-api/get_colors.php");
         const result = await response.json();
 
         // aseguramos que el result.data es un array antes de usar fetch
         if (result.status === "success" && Array.isArray(result.data)) {
             const colors = result.data;
             colors.forEach(color => {
-                console.log(color.hexa);
+                console.log("color obtenido de la db", color.hexa);
                 createBoxColor(color.hexa); // usamos la function para crear la box color
             });
         } else {
