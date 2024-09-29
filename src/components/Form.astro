@@ -6,7 +6,8 @@ const commonClasses =
 ---
 
 <form
-    method="post"
+    method="POST"
+    action="http://localhost/Tools-api/save_color.php"
     class="flex flex-col sm:flex-row justify-center items-center gap-5"
 >
     <label for="input1" class={`sr-only ${input1}`}>Color 1</label>
@@ -54,7 +55,52 @@ const commonClasses =
 </section>
 
 <!--* uso de condicionales -->
-{link === '/scripts/colors.js' && <script src="/scripts/colors.js"></script>} 
+{link === '/scripts/colors.js' && <script src="/scripts/colors.js"></script>}
 {link === '/scripts/gradients.js' && <script src="/scripts/gradients.js"></script>}
 {link === '/scripts/fonts.js' && <script src="/scripts/fonts.js"></script>}
-<style></style>
+
+<style is:inline>
+    .containerBNT {
+        display: flex;
+        justify-content: space-around;
+        border: 1px solid black;
+        border-radius: 4px;
+        width: 100%;
+    }
+    .bntCopy {
+        color: black;
+        text-align: center;
+        border-right: 1px solid black;
+        width: 50%;
+    }
+    .bntCopy:hover {
+        background-color: #fff3;
+    }
+    .bntDelet {
+        color: black;
+        text-align: center;
+        width: 50%;
+    }
+    .bntDelet:hover {
+        background-color: #fff3;
+    }
+    @media (prefers-color-scheme: dark)  {
+        .containerBNT {
+        display: flex;
+        justify-content: space-around;
+        border: 1px solid white;
+        border-radius: 4px;
+        width: 100%;
+    }
+        .bntCopy {
+            color:white;
+            border-right: 1px solid white;
+            width: 50%;
+        }
+        .bntDelet {
+            color: white;
+            text-align: center;
+            width: 50%;
+        }
+    }
+</style>
