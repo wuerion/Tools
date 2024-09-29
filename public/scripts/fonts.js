@@ -43,15 +43,12 @@ function createBoxFont (name, url) {
         newCard.appendChild(containerBnt);
 
         let bntCopy = document.createElement("button");
-        // bntCopy.classList.add("bntCopy")
-        bntCopy.className = "text-black text-center dark:text-white hover:text-cyan-400 border-r border-solid border-white hover:bg-white/10";
-        bntCopy.style.width = "50%";
+        bntCopy.classList.add("bntCopy")
         bntCopy.innerText = "Copy";
         containerBnt.appendChild(bntCopy);
 
         let bntDelet = document.createElement("button");
-        bntDelet.className = "text-black text-center dark:text-white hover:text-cyan-400 border-r border-solid border-white hover:bg-white/10";
-        bntDelet.style.width = "50%";
+        bntCopy.classList.add("bntDelet")
         bntDelet.innerText = "Delet";
         containerBnt.appendChild(bntDelet);
 
@@ -111,3 +108,17 @@ window.addEventListener('keydown', (e) => {
         createBoxFont();
     }
 })
+
+// async function getData() {
+//     try {
+//         const response = await fetch("http://localhost:3000/get_data.php?web=colors");
+//         const data = await response.json(); //Pasar los datos en consola a format JSON
+//         console.log(data);//mostrar los datos
+//         return data;
+//     } catch (error) {
+//         console.log("Error fetching data:", error);
+//     }
+// }
+// getData();
+
+fetch('http://localhost:3000/get_data.php?web=colors').then(response => response.json()).then(data => console.log(data));
