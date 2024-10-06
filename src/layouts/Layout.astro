@@ -19,10 +19,11 @@ const { title } = Astro.props;
 			href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
 			rel="stylesheet"
 		/>
+		<link href="https://fonts.googleapis.com/css2?family=Megrim&display=swap" rel="stylesheet">
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-w-mv dark:bg-mv dark:lg:bg-pc" style="font-family: Nunito">
+	<body class="bg-w-mv dark:bg-mv dark:lg:bg-pc font-body">
 		<slot />
 	</body>
 </html>
