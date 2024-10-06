@@ -136,11 +136,11 @@ async function deleteGradientInDB(val1, val2, val3) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({val1:val1, val2: val2, val3: val3}),
+            body: JSON.stringify({val1: val1, val2: val2, val3: val3}),
         });
         // obtenemos la rrespuesta
-        const textResponse = await response.text();
-        console.log("Respuesta del servidor: ", textResponse);
+        // const textResponse = await response.text();
+        // console.log("Respuesta del servidor: ", textResponse);
 
         const result = await response.json();
         if (result.success) {
