@@ -3,94 +3,176 @@ let container = document.getElementById("container");
 let divNotify = document.getElementById("notify");
 let textNotify = document.getElementById("textNotify");
 
-function createBoxFont (name, url) {
+// Conexion a la db
+fetch("http://localhost/Tools-api/get_fonts.php").then(response => response.json()).then(data => {
+    console.log("Datos obtenidos", data);
+}).catch(error => {
+    console.log("Error al obtenr los datos", error);
+})
+
+// function para crear la font en vase el valor del input
+async function createBoxFontWithitInput(name, url) {
     let inputName = document.getElementById("input2").value;
     localStorage.setItem("name", inputName);
-    let nameData = localStorage.getItem("name");
+    let nameFont = localStorage.getItem("name");
+
     let inputUrl = document.getElementById("input3").value;
     localStorage.setItem("url", inputUrl);
-    let urlData = localStorage.getItem("url");
+    let urlFont = localStorage.getItem("url");
 
-    if (inputName === '') {
+    if (nameFont === '') {
         divNotify.classList.add("notify");
         textNotify.innerText = "Ingresa el nombre";
         notify();
-    } else if (inputUrl === '') {
+    } else if (urlFont === ''){
         divNotify.classList.add("notify");
-        textNotify.innerText = "Ingresa el url";
+        textNotify.innerText = "Ingresa la url";
         notify();
     } else {
-        linkCss(inputUrl);
-        let newCard = document.createElement("div");
-        newCard.className = "border border-black dark:border-white hover:border-white dark:hover:border-cyan-400 p-3.5 rounded";
-        container.appendChild(newCard);
+        createBoxFont(inputName, inputUrl);
+        saveFontInDB(nameFont, urlFont);
+    }
+}
 
-        let nameFont = document.createElement("p");
-        nameFont.className = "text-black dark:text-white text-center";
-        nameFont.style.fontFamily = inputName;
-        nameFont.innerText = nameData;
-        newCard.appendChild(nameFont);
+// function para crear la font en vase el valor de la db
+function createBoxFont(val1, val2) {
+    linkCss(val2);
+    let newCard = document.createElement("div");
+    newCard.className = "border border-black dark:border-white hover:border-white dark:hover:border-cyan-400 p-3.5 rounded";
+    container.appendChild(newCard);
 
-        let exampleText = document.createElement("p");
-        exampleText.className = "h-10 rounded my-2.5 text-black dark:text-white text-center";
-        exampleText.style.fontFamily = inputName;
-        exampleText.innerHTML = "A, a, B, b, C, c, 0, 1, 2, 3, 4, 5";
-        newCard.appendChild(exampleText);
+    let nameFont = document.createElement("p");
+    nameFont.className = "text-black dark:text-white text-center";
+    nameFont.style.fontFamily = val1;
+    nameFont.innerText = val1;
+    newCard.appendChild(nameFont);
 
-        let containerBnt = document.createElement("div");
-        containerBnt.className = "felx border rounded";
-        containerBnt.style.display = 'space-around';
-        newCard.appendChild(containerBnt);
+    let exampleText = document.createElement("p");
+    exampleText.className = "h-10 rounded my-2.5  text-black dark:text-white text-center";
+    exampleText.style.fontFamily = val1;
+    exampleText.innerText = "A, a, B, b, C, c, 0, 1, 2, 3, 4, 5";
+    newCard.appendChild(exampleText);
 
-        let bntCopy = document.createElement("button");
-        bntCopy.classList.add("bntCopy")
-        bntCopy.innerText = "Copy";
-        containerBnt.appendChild(bntCopy);
+    let containerBnt = document.createElement("div");
+    containerBnt.classList.add("containerBNT");
+    newCard.appendChild(containerBnt);
 
-        let bntDelet = document.createElement("button");
-        bntCopy.classList.add("bntDelet")
-        bntDelet.innerText = "Delet";
-        containerBnt.appendChild(bntDelet);
+    let bntCopy = document.createElement("button");
+    bntCopy.classList.add("bntCopy");
+    bntCopy.innerText = "Copy";
+    containerBnt.appendChild(bntCopy);
 
-        const copyColor = async () => {
-            try {
-                await navigator.clipboard.writeText(`@import url(${urlData});, font-family:${nameData}, cursive;`);
-                divNotify.classList.add("notify");
-                textNotify.innerText = "Font copiado";
-                notify();
-            } catch (error) {
-                console.log(error);
-            };
-        };
+    let bntDelet = document.createElement("button");
+    bntDelet.classList.add("bntDelet");
+    bntDelet.innerText = "Delet";
+    containerBnt.appendChild(bntDelet);
 
-        function delet() {
-            newCard.remove();
-            localStorage.removeItem("name");
-            localStorage.removeItem("url");
+    const copyFont = async (val1, val2) => {
+        try {
+            await navigator.clipboard.writeText(`fontFamily:${val1}, @import url(${val2}, cursive);`);
             divNotify.classList.add("notify");
-            textNotify.innerText = "Font eliminado";
+            textNotify.innerText = "Font copiado";
             notify();
-        };
+        } catch (error) {
+            console.log("error al copiar: ", error);
+        }
+    }
 
-        bntCopy.addEventListener('click', function() { copyColor(nameData, urlData); });
-        bntDelet.addEventListener('click', function() { delet(nameData, urlData); });
-    };
-};
+    function delet(val1, val2) {
+        newCard.remove();
+        localStorage.removeItem("name");
+        localStorage.removeItem("url");
+        textNotify.innerText = "Font eliminado";
+        deleteFontInDB(val1, val2);
+        notify();
+    }
 
-function linkCss(url) {
+    bntCopy.addEventListener('click', function () { copyFont(val1, val2) })
+    bntDelet.addEventListener('click', function () { delet(val1, val2) })
+}
+
+function linkCss (url) {
     let cssLink = document.createElement("link");
     cssLink.rel = "stylesheet";
     cssLink.type = "text/css";
     cssLink.href = url;
     document.head.appendChild(cssLink);
-};
+}
+
+// obtenemos los datos de la db
+async function getFontsFromDB() {
+    try {
+        const response = await fetch("http://localhost/Tools-api/get_fonts.php");
+        const result = await response.json();
+        // aseguramos que le resultado.data es un array antes de usar fetch
+        if (result.status === "success" && Array.isArray(result.data)) {
+            const fonts = result.data;
+            fonts.forEach(font => {
+                console.log("fonts obtenido: ", font.fontname, font.fonturl);
+                createBoxFont(font.fontname, font.fonturl);
+                linkCss(font.fonturl);
+            });
+        } else {
+            console.log("Error en la respusta: ", result.message || "Datos inesperados")
+        }
+    } catch (error) {
+        console.error("error al obtener los datos")
+    }
+}
+
+// function para eliminar los datos de la db
+async function deleteFontInDB(val1, val2) {
+    try {
+        const response = await fetch("http://localhost/Tools-api/delet_fonts.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({val1:val1, val2:val2}),
+        });
+        // // obtenemos la respuesta
+        // const textResponse = await response.text();
+        // console.log("Respuesta del servidor: ", textResponse);
+
+        const result = await response.json();
+        if (result.success) {
+            console.log("Font eliminado");
+        } else {
+            console.log("Error al eliminar: ", result.message);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud: ", error)
+    }
+}
+
+// guradamos el nuevo datos en la db
+async function saveFontInDB(val1, val2) {
+    console.log("font que se va a guardar: " , val1, val2);
+    try {
+        const response = await fetch("http://localhost/Tools-api/save_fonts.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({val1: val1, val2: val2}), 
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            console.log("Font guardado");
+        } else {
+            console.log("error al guardar: ", result.message);
+        }
+    } catch (error) {
+        console.error("error em la solucitud: ", error)
+    }
+}
 
 let time = 1;
 
-function delay (ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-};
-
+function delay(ms) {
+    return new Promise(resolove => setTimeout(resolove, ms));
+}
 async function notify() {
     while (time < 10) {
         time++;
@@ -100,25 +182,17 @@ async function notify() {
     divNotify.classList.remove("notify");
     textNotify.innerText = '';
     time = 1;
-};
+    console.log('end');
+}
 
-createFont.addEventListener('click', function () { createBoxFont(); });
+window.onload = () => {
+    getFontsFromDB();
+}
+
 window.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        createBoxFont();
+    if (e.key === "Enter") {
+        createBoxFontWithitInput();
     }
 })
 
-// async function getData() {
-//     try {
-//         const response = await fetch("http://localhost:3000/get_data.php?web=colors");
-//         const data = await response.json(); //Pasar los datos en consola a format JSON
-//         console.log(data);//mostrar los datos
-//         return data;
-//     } catch (error) {
-//         console.log("Error fetching data:", error);
-//     }
-// }
-// getData();
-
-fetch('http://localhost:3000/get_data.php?web=colors').then(response => response.json()).then(data => console.log(data));
+createFont.addEventListener('click', function () { createBoxFontWithitInput(); });
