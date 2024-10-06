@@ -13,6 +13,10 @@ export default {
 				'w-mv': "radial-gradient(100% 200% at 50% 5%, #fff 20%, #63e 100%)",
 			},
 		},
+		fontFamily: {
+			'body' : ['Nunito'],
+			'axvol' : ['Megrim']
+		},
 	},
 	plugins: [],
 }
