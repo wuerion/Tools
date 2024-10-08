@@ -1,5 +1,5 @@
 ---
-const { text, addClass, addStyle, addText, img, alt, link } = Astro.props;
+const { text, addClass, addStyle, addFont, addText, img, alt, link } = Astro.props;
 ---
 
 <div
@@ -7,13 +7,13 @@ const { text, addClass, addStyle, addText, img, alt, link } = Astro.props;
 >
 	<p
 		class="text-black dark:text-white text-center"
-		style=`font-family:${addStyle};`
+		style=`font-family:${addFont};`
 	>
 		{text}
 	</p>
 	<div
 		class=`h-10 rounded my-2.5 text-black dark:text-white text-center text-base ${addClass}`
-		style=`background-image:linear-gradient(${addStyle}); font-family:${addStyle};`
+		style=`background-image:linear-gradient(${addStyle}); font-family:${addFont};`
 	>
 		{addText}
 		<a href={link} target="_blank">
